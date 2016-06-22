@@ -4,15 +4,17 @@
 # Original docker file by eg5846 (https://github.com/eg5846)
 #
 # 2016/03/03 - First release
-# 
+# 2016/06/22 - Fix Reverseshell
 # To build your container:
 #
 # # git clone https://github.com/xme/misp-docker
 # # docker build -t <tag> --build-arg MYSQL_ROOT_PASSWORD=<mysql_root_pw> .
 
 # We are based on Ubuntu:latest
-FROM ubuntu
+
+FROM ubuntu:trusty
 MAINTAINER Xavier Mertens <xavier@rootshell.be>
+
 
 # Set environment variables
 ENV DEBIAN_FRONTEND noninteractive
@@ -106,7 +108,8 @@ RUN \
 
 # CakeResque normally uses phpredis to connect to redis, but it has a (buggy) fallback connector through Redisent. 
 # It is highly advised to install phpredis
-RUN pecl install redis
+# redis-2.8 for php5
+RUN pecl install redis-2.2.8
 RUN apt-get install -y php5-redis
 
 # After installing it, enable it in your php.ini file
